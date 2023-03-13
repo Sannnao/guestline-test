@@ -15,7 +15,7 @@ export const RoomsList = ({ hotelId }: RoomsListProps) => {
     <Box>
       {data?.map((room) => {
         return (
-          <Card variant="outlined" sx={{ margin: "2%" }}>
+          <Card key={room.id} variant="outlined" sx={{ margin: "2%" }}>
             <CardContent sx={{ display: "flex", columnGap: "2%" }}>
               <Box flex="0 0 30%">
                 <Carousel images={room.images} />
