@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Hotel } from "components/HotelsList";
+import { Hotel } from "components/HotelItem";
 
 axios.defaults.baseURL = "https://obmng.dbm.guestline.net/api";
 

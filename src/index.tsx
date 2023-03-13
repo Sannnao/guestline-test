@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const queryClient = new QueryClient();
 
