@@ -1,12 +1,7 @@
-import { Carousel } from "react-responsive-carousel";
 import { useQuery } from "@tanstack/react-query";
 import { getHotelRooms } from "api";
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Carousel } from "components/Carousel";
 
 type RoomsListProps = { hotelId: string };
 
@@ -19,23 +14,11 @@ export const RoomsList = ({ hotelId }: RoomsListProps) => {
   return (
     <Box>
       {data?.map((room) => {
-        console.log(room);
         return (
           <Card variant="outlined" sx={{ margin: "2%" }}>
             <CardContent sx={{ display: "flex", columnGap: "2%" }}>
               <Box flex="0 0 30%">
-                <Carousel showIndicators={false} showThumbs={false}>
-                  {room.images.map((image, i) => (
-                    <Box
-                      height="100%"
-                      display="flex"
-                      alignItems="center"
-                      key={i}
-                    >
-                      <img src={image.url} alt={image.alt} />
-                    </Box>
-                  ))}
-                </Carousel>
+                <Carousel images={room.images} />
               </Box>
               <Box flex="0 0 15%">
                 <Typography variant="h6" marginBottom="20%">

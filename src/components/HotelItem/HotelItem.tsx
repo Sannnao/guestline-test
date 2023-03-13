@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Carousel } from "react-responsive-carousel";
 import {
   Box,
   Rating,
@@ -10,6 +9,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
+import { Carousel } from "components/Carousel";
 import { RoomsList } from "components/RoomsList";
 
 export type Hotel = {
@@ -72,13 +72,7 @@ export const HotelItem = ({ hotel }: HotelItemProps) => {
     <Card variant="outlined" sx={{ margin: "2%" }}>
       <CardContent sx={{ display: "flex" }}>
         <Box width="30%" marginRight="4%">
-          <Carousel showIndicators={false} showThumbs={false}>
-            {hotel.images.map((image, i) => (
-              <Box height="100%" display="flex" alignItems="center" key={i}>
-                <img src={image.url} alt={image.alt} />
-              </Box>
-            ))}
-          </Carousel>
+          <Carousel images={hotel.images} />
         </Box>
         <Box flexGrow="1" display={"flex"} flexDirection="column">
           <Box flexGrow="1">
