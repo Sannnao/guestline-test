@@ -11,10 +11,18 @@ function App() {
   const hotelsImages = useMemo(() => data && getHotelsImages(data), [data]);
 
   return (
-    <div className="App">
-      <Box maxHeight="300px" height={"300px"} component="header">
+    <Box
+      display={"flex"}
+      flexDirection={"column"}
+      height={"100%"}
+      overflow="hidden"
+      boxSizing={"border-box"}
+      paddingBottom="20px"
+    >
+      <Box flex="0 0 250px" component="header">
         <CarouselLib
           autoPlay
+          infiniteLoop
           transitionTime={600}
           interval={3000}
           stopOnHover={false}
@@ -27,7 +35,7 @@ function App() {
             <Box height="100%" display="flex" alignItems="center" key={i}>
               <img
                 style={{ objectFit: "cover" }}
-                height={300}
+                height={250}
                 src={image.url}
                 alt={image.alt}
               />
@@ -35,10 +43,17 @@ function App() {
           ))}
         </CarouselLib>
       </Box>
-      <Box display="flex" justifyContent={"center"} component="main">
+      <Box
+        display="flex"
+        flexGrow="1"
+        justifyContent={"center"}
+        component="main"
+        overflow="auto"
+        paddingBottom="20px"
+      >
         <HotelsList />
       </Box>
-    </div>
+    </Box>
   );
 }
 
