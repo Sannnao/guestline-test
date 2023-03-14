@@ -82,7 +82,14 @@ export const HotelItem = ({ hotel }: HotelItemProps) => {
             <Typography variant="body2">{address1}</Typography>
             <Typography variant="body2">{address2}</Typography>
           </Box>
-          <CardActions sx={{ display: "flex", justifyContent: "center" }}>
+          <CardActions
+            sx={{
+              position: "relative",
+              bottom: "-20px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <Button
               onClick={handleExpandClick}
               onMouseEnter={async () => {

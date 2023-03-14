@@ -3,12 +3,19 @@ import { Carousel as CarouselLib } from "react-responsive-carousel";
 import { Box } from "@mui/material";
 import { useHotelsQuery } from "api/useHotelsQuery";
 import { getHotelsImages } from "utils/getHotelsImages";
-import { Filter } from "components/Filter";
+import { Filter, FilterData } from "components/Filter";
 import { HotelsList } from "components/HotelsList";
 
 function App() {
   const { data } = useHotelsQuery();
   const hotelsImages = useMemo(() => data && getHotelsImages(data), [data]);
+  const [filterData, setFilterData] = useState<FilterData>({
+    rating: null,
+    children: null,
+    adults: null,
+  });
+
+  console.log(filterData);
 
   return (
     <Box
@@ -51,7 +58,7 @@ function App() {
           ))}
         </CarouselLib>
         <Box sx={{ position: "absolute", zIndex: 9999, bottom: "-30px" }}>
-          <Filter />
+          <Filter getFilterData={setFilterData} />
         </Box>
       </Box>
       <Box

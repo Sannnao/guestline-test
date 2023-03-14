@@ -1,11 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Card, Rating, Typography } from "@mui/material";
 import { Counter } from "components/Counter";
 
-export const Filter = () => {
-  const [rating, setRating] = useState(0);
-  const [adultsFilterAmount, setAdultsFilterAmount] = useState(0);
-  const [childrenFilterAmount, setChildrenFilterAmount] = useState(0);
+export type FilterItemData = number | null;
+
+export type FilterData = {
+  rating: FilterItemData;
+  adults: FilterItemData;
+  children: FilterItemData;
+};
+
+type FilterProps = {
+  getFilterData: React.Dispatch<React.SetStateAction<FilterData>>;
+};
+
+export const Filter = ({ getFilterData }: FilterProps) => {
+  const [rating, setRating] = useState<FilterItemData>(null);
+  const [adultsFilterAmount, setAdultsFilterAmount] =
+    useState<FilterItemData>(null);
+  const [childrenFilterAmount, setChildrenFilterAmount] =
+    useState<FilterItemData>(null);
+
+  useEffect(() => {
+    getFilterData({
+      rating,
+      adults: adultsFilterAmount,
+      children: childrenFilterAmount,
+    });
+  }, [adultsFilterAmount, childrenFilterAmount, rating, getFilterData]);
 
   return (
     <Card
@@ -17,7 +39,7 @@ export const Filter = () => {
         backgroundColor: "white",
       }}
     >
-      <Rating />
+      <Rating value={rating} onChange={(_e, newValue) => setRating(newValue)} />
       <Box display="flex" alignItems="center">
         <Typography variant="body2">Adults:</Typography>
         <Counter getAmount={setAdultsFilterAmount} />
