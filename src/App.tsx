@@ -15,8 +15,6 @@ function App() {
     adults: null,
   });
 
-  console.log(filterData);
-
   return (
     <Box
       display={"flex"}

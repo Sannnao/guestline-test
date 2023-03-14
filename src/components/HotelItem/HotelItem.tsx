@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { getHotelRoomsQueryConfig } from "api/useHotelRoomsQuery";
+import { useState, useMemo } from "react";
+import { useHotelRoomsQuery } from "api/useHotelRoomsQuery";
 import {
   Box,
   Rating,
@@ -11,9 +10,9 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import { Carousel } from "components/Carousel";
-import { RoomsList } from "components/RoomsList";
 import { FilterData } from "components/Filter";
+import { Carousel } from "components/Carousel";
+import { RoomsList, Room } from "components/RoomsList";
 
 export type Image = { url: string; alt?: string };
 
@@ -39,32 +38,12 @@ export type Hotel = {
   position: { latitude?: number; longitude?: number; timezone: string };
 };
 
-export type Room = {
-  id: string;
-  name: string;
-  shortDescription: string;
-  longDescription: string;
-  occupancy: {
-    maxAdults: number;
-    maxChildren: number;
-    maxOverall: number;
-  };
-  disabledAccess: boolean;
-  bedConfiguration: string;
-  images: Image[];
-  facilities: {
-    code: string;
-    name: string;
-  }[];
-};
-
 type HotelItemProps = {
   hotel: Hotel;
   filterData: FilterData;
 };
 
 export const HotelItem = ({ hotel, filterData }: HotelItemProps) => {
-  const queryClient = useQueryClient();
   const { id, name, address1, address2 } = hotel;
   const [expanded, setExpanded] = useState(false);
 
@@ -72,7 +51,57 @@ export const HotelItem = ({ hotel, filterData }: HotelItemProps) => {
     setExpanded(!expanded);
   };
 
-  return (
+  const { data } = useHotelRoomsQuery(id);
+
+  const adults = filterData.adults;
+  const shouldFilterAdults = adults !== null;
+
+  const children = filterData.children;
+  const shouldFilterChildren = children !== null;
+
+  const filteredRooms = useMemo(() => {
+    let tempFilteredRooms: Room[] | undefined;
+
+    if (shouldFilterAdults) {
+      tempFilteredRooms = data
+        ?.filter((room) => room.occupancy.maxAdults >= adults)
+        .sort((a, b) => {
+          const aAdults = a.occupancy.maxAdults;
+          const bAdults = b.occupancy.maxAdults;
+
+          if (aAdults > bAdults) {
+            return 1;
+          } else if (aAdults < bAdults) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+    }
+
+    if (shouldFilterChildren) {
+      tempFilteredRooms = (tempFilteredRooms ? tempFilteredRooms : data)
+        ?.filter((room) => {
+          return room.occupancy.maxChildren >= children;
+        })
+        .sort((a, b) => {
+          const aChildren = a.occupancy.maxChildren;
+          const bChildren = b.occupancy.maxChildren;
+
+          if (aChildren > bChildren) {
+            return 1;
+          } else if (aChildren < bChildren) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+    }
+
+    return tempFilteredRooms ? tempFilteredRooms : data;
+  }, [data, adults, children, shouldFilterAdults, shouldFilterChildren]);
+
+  return filteredRooms?.length !== 0 ? (
     <Card variant="outlined" sx={{ margin: "2%" }}>
       <CardContent sx={{ display: "flex" }}>
         <Box width="30%" marginRight="4%">
@@ -94,9 +123,6 @@ export const HotelItem = ({ hotel, filterData }: HotelItemProps) => {
           >
             <Button
               onClick={handleExpandClick}
-              onMouseEnter={async () => {
-                await queryClient.prefetchQuery(getHotelRoomsQueryConfig(id));
-              }}
               aria-expanded={expanded}
               aria-label="show rooms"
             >
@@ -107,8 +133,8 @@ export const HotelItem = ({ hotel, filterData }: HotelItemProps) => {
         <Rating value={+hotel.starRating} readOnly />
       </CardContent>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <RoomsList hotelId={id} />
+        {filteredRooms && <RoomsList rooms={filteredRooms} />}
       </Collapse>
     </Card>
-  );
+  ) : null;
 };

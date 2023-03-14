@@ -31,8 +31,6 @@ export const HotelsList = ({ filterData }: HotelsListProps) => {
       : data;
   }, [data, rating, shouldFilter]);
 
-  console.log(filteredHotels);
-
   return isLoading ? (
     <div>loading</div>
   ) : (

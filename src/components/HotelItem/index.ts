@@ -1,2 +1,2 @@
 export { HotelItem } from "./HotelItem";
-export type { Hotel, Room, Image } from "./HotelItem";
+export type { Hotel, Image } from "./HotelItem";

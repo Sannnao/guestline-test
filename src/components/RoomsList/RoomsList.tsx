@@ -1,15 +1,34 @@
-import { useHotelRoomsQuery } from "api/useHotelRoomsQuery";
 import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Image } from "components/HotelItem";
 import { Carousel } from "components/Carousel";
 
-type RoomsListProps = { hotelId: string };
+export type Room = {
+  id: string;
+  name: string;
+  shortDescription: string;
+  longDescription: string;
+  occupancy: {
+    maxAdults: number;
+    maxChildren: number;
+    maxOverall: number;
+  };
+  disabledAccess: boolean;
+  bedConfiguration: string;
+  images: Image[];
+  facilities: {
+    code: string;
+    name: string;
+  }[];
+};
 
-export const RoomsList = ({ hotelId }: RoomsListProps) => {
-  const { data } = useHotelRoomsQuery(hotelId);
+type RoomsListProps = {
+  rooms: Room[];
+};
 
+export const RoomsList = ({ rooms }: RoomsListProps) => {
   return (
     <Box>
-      {data?.map((room) => {
+      {rooms.map((room) => {
         return (
           <Card key={room.id} variant="outlined" sx={{ margin: "2%" }}>
             <CardContent sx={{ display: "flex", columnGap: "2%" }}>
