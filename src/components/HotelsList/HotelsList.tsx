@@ -1,20 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
-import { getHotels } from "api";
+import { useHotelsQuery } from "api/useHotelsQuery";
 import { HotelItem } from "components/HotelItem";
 import { Box } from "@mui/material";
 
 type HotelsListProps = {};
 
 export const HotelsList = ({}: HotelsListProps) => {
-  const { isLoading, data } = useQuery({
-    queryKey: ["hotels"],
-    queryFn: getHotels,
-  });
+  const { isLoading, data } = useHotelsQuery();
 
   return isLoading ? (
     <div>loading</div>
   ) : (
-    <Box>
+    <Box width="65%">
       {data!.map((hotel, i) => (
         <HotelItem key={i} hotel={hotel} />
       ))}

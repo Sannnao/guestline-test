@@ -5,6 +5,7 @@ export const getHotelRoomsQueryConfig = (hotelId: string) => {
   return {
     queryKey: ["hotelRooms", hotelId],
     queryFn: () => getHotelRooms(hotelId),
+    staleTime: 10 * 1000,
   };
 };
 

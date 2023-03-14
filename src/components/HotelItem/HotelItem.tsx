@@ -14,6 +14,8 @@ import {
 import { Carousel } from "components/Carousel";
 import { RoomsList } from "components/RoomsList";
 
+export type Image = { url: string; alt?: string };
+
 export type Hotel = {
   id: string;
   name: string;
@@ -28,7 +30,7 @@ export type Hotel = {
   facilities: { code: string }[];
   telephone: string;
   email: string;
-  images: { url: string; alt?: string }[];
+  images: Image[];
   checkInHours: string;
   checkInMinutes: string;
   checkOutHours: string;
@@ -48,10 +50,7 @@ export type Room = {
   };
   disabledAccess: boolean;
   bedConfiguration: string;
-  images: {
-    url: string;
-    alt: string;
-  }[];
+  images: Image[];
   facilities: {
     code: string;
     name: string;
