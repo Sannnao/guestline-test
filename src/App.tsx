@@ -1,9 +1,9 @@
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Carousel as CarouselLib } from "react-responsive-carousel";
+import { Box } from "@mui/material";
 import { useHotelsQuery } from "api/useHotelsQuery";
 import { getHotelsImages } from "utils/getHotelsImages";
-import { Box, Container } from "@mui/material";
-import { Carousel } from "components/Carousel";
+import { Filter } from "components/Filter";
 import { HotelsList } from "components/HotelsList";
 
 function App() {
@@ -19,7 +19,15 @@ function App() {
       boxSizing={"border-box"}
       paddingBottom="20px"
     >
-      <Box flex="0 0 250px" component="header">
+      <Box
+        component="header"
+        flex="0 0 250px"
+        position="relative"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        boxShadow={"2px 0 2px 2px grey"}
+      >
         <CarouselLib
           autoPlay
           infiniteLoop
@@ -42,6 +50,9 @@ function App() {
             </Box>
           ))}
         </CarouselLib>
+        <Box sx={{ position: "absolute", zIndex: 9999, bottom: "-30px" }}>
+          <Filter />
+        </Box>
       </Box>
       <Box
         display="flex"
@@ -49,7 +60,7 @@ function App() {
         justifyContent={"center"}
         component="main"
         overflow="auto"
-        paddingBottom="20px"
+        paddingTop="30px"
       >
         <HotelsList />
       </Box>
