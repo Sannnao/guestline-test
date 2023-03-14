@@ -69,7 +69,7 @@ function App() {
         overflow="auto"
         paddingTop="30px"
       >
-        <HotelsList />
+        <HotelsList filterData={filterData} />
       </Box>
     </Box>
   );

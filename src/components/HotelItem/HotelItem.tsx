@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { Carousel } from "components/Carousel";
 import { RoomsList } from "components/RoomsList";
+import { FilterData } from "components/Filter";
 
 export type Image = { url: string; alt?: string };
 
@@ -59,9 +60,10 @@ export type Room = {
 
 type HotelItemProps = {
   hotel: Hotel;
+  filterData: FilterData;
 };
 
-export const HotelItem = ({ hotel }: HotelItemProps) => {
+export const HotelItem = ({ hotel, filterData }: HotelItemProps) => {
   const queryClient = useQueryClient();
   const { id, name, address1, address2 } = hotel;
   const [expanded, setExpanded] = useState(false);
