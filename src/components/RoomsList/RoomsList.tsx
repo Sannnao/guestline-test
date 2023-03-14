@@ -1,15 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { getHotelRooms } from "api";
+import { useHotelRoomsQuery } from "api/useHotelRoomsQuery";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import { Carousel } from "components/Carousel";
 
 type RoomsListProps = { hotelId: string };
 
 export const RoomsList = ({ hotelId }: RoomsListProps) => {
-  const { data } = useQuery({
-    queryKey: ["hotelRooms"],
-    queryFn: () => getHotelRooms(hotelId),
-  });
+  const { data } = useHotelRoomsQuery(hotelId);
 
   return (
     <Box>
@@ -17,9 +13,11 @@ export const RoomsList = ({ hotelId }: RoomsListProps) => {
         return (
           <Card key={room.id} variant="outlined" sx={{ margin: "2%" }}>
             <CardContent sx={{ display: "flex", columnGap: "2%" }}>
-              <Box flex="0 0 30%">
-                <Carousel images={room.images} />
-              </Box>
+              {room.images.length ? (
+                <Box flex="0 0 30%">
+                  <Carousel images={room.images} />
+                </Box>
+              ) : null}
               <Box flex="0 0 15%">
                 <Typography variant="h6" marginBottom="20%">
                   {room.name}

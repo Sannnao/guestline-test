@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { getHotelRoomsQueryConfig } from "api/useHotelRoomsQuery";
 import {
   Box,
   Rating,
@@ -61,6 +63,7 @@ type HotelItemProps = {
 };
 
 export const HotelItem = ({ hotel }: HotelItemProps) => {
+  const queryClient = useQueryClient();
   const { id, name, address1, address2 } = hotel;
   const [expanded, setExpanded] = useState(false);
 
@@ -83,6 +86,9 @@ export const HotelItem = ({ hotel }: HotelItemProps) => {
           <CardActions sx={{ display: "flex", justifyContent: "center" }}>
             <Button
               onClick={handleExpandClick}
+              onMouseEnter={async () => {
+                await queryClient.prefetchQuery(getHotelRoomsQueryConfig(id));
+              }}
               aria-expanded={expanded}
               aria-label="show rooms"
             >
