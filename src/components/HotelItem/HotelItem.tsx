@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { FilterData } from "components/Filter";
 import { Carousel } from "components/Carousel";
-import { RoomsList, Room } from "components/RoomsList";
+import { RoomsList } from "components/RoomsList";
 
 export type Image = { url: string; alt?: string };
 
@@ -55,15 +55,10 @@ export const HotelItem = ({ hotel, filterData }: HotelItemProps) => {
 
   const adults = filterData.adults;
   const shouldFilterAdults = adults !== null;
-
-  const children = filterData.children;
-  const shouldFilterChildren = children !== null;
-
-  const filteredRooms = useMemo(() => {
-    let tempFilteredRooms: Room[] | undefined;
-
-    if (shouldFilterAdults) {
-      tempFilteredRooms = data
+  const filteredRoomsAdults = useMemo(() => {
+    return (
+      shouldFilterAdults &&
+      data
         ?.filter((room) => room.occupancy.maxAdults >= adults)
         .sort((a, b) => {
           const aAdults = a.occupancy.maxAdults;
@@ -76,11 +71,16 @@ export const HotelItem = ({ hotel, filterData }: HotelItemProps) => {
           } else {
             return 0;
           }
-        });
-    }
+        })
+    );
+  }, [shouldFilterAdults, data, adults]);
 
-    if (shouldFilterChildren) {
-      tempFilteredRooms = (tempFilteredRooms ? tempFilteredRooms : data)
+  const children = filterData.children;
+  const shouldFilterChildren = children !== null;
+  const filteredRoomsChildren = useMemo(() => {
+    return (
+      shouldFilterChildren &&
+      (filteredRoomsAdults ? filteredRoomsAdults : data)
         ?.filter((room) => {
           return room.occupancy.maxChildren >= children;
         })
@@ -95,11 +95,15 @@ export const HotelItem = ({ hotel, filterData }: HotelItemProps) => {
           } else {
             return 0;
           }
-        });
-    }
+        })
+    );
+  }, [data, children, filteredRoomsAdults, shouldFilterChildren]);
 
-    return tempFilteredRooms ? tempFilteredRooms : data;
-  }, [data, adults, children, shouldFilterAdults, shouldFilterChildren]);
+  const filteredRooms = filteredRoomsChildren
+    ? filteredRoomsChildren
+    : filteredRoomsAdults
+    ? filteredRoomsAdults
+    : data;
 
   return filteredRooms?.length !== 0 ? (
     <Card variant="outlined" sx={{ margin: "2%" }}>
