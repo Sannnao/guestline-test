@@ -54,13 +54,13 @@ export const Counter = ({ getAmount }: CounterProps) => {
         alignItems: "center",
       }}
     >
-      <IconButton aria-label="remove product" onClick={decrement}>
+      <IconButton aria-label="decrement" onClick={decrement}>
         <RemoveIcon />
       </IconButton>
-      <Typography data-testid="productAmount" variant="h6">
+      <Typography data-testid="amount" variant="h6">
         {amount === null ? "_" : amount}
       </Typography>
-      <IconButton aria-label="add product" onClick={increment}>
+      <IconButton aria-label="increment" onClick={increment}>
         <AddIcon />
       </IconButton>
     </Box>
