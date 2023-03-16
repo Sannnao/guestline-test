@@ -3,6 +3,7 @@ import { useHotelsQuery } from "api/useHotelsQuery";
 import { HotelItem } from "components/HotelItem";
 import { Box } from "@mui/material";
 import { FilterData } from "components/Filter";
+import { Loading } from "components/Loading";
 
 type HotelsListProps = {
   filterData: FilterData;
@@ -32,7 +33,7 @@ export const HotelsList = ({ filterData }: HotelsListProps) => {
   }, [data, rating, shouldFilter]);
 
   return isLoading ? (
-    <div>loading</div>
+    <Loading />
   ) : (
     <Box width="65%">
       {filteredHotels?.map((hotel, i) => (

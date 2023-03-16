@@ -31,7 +31,7 @@ describe("HotelItem", () => {
       queryClient
     );
 
-    expect(screen.getByText("loading")).toBeInTheDocument();
+    expect(screen.getByTestId("loading")).toBeInTheDocument();
   });
 
   it("Renders HotelsList with hotels", async () => {
