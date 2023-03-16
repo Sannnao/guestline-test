@@ -31,6 +31,7 @@ export const Filter = ({ getFilterData }: FilterProps) => {
 
   return (
     <Card
+      data-testid="filter"
       sx={{
         display: "flex",
         alignItems: "center",
@@ -39,7 +40,11 @@ export const Filter = ({ getFilterData }: FilterProps) => {
         backgroundColor: "white",
       }}
     >
-      <Rating data-testid='rating' value={rating} onChange={(_e, newValue) => setRating(newValue)} />
+      <Rating
+        data-testid="rating"
+        value={rating}
+        onChange={(_e, newValue) => setRating(newValue)}
+      />
       <Box display="flex" alignItems="center">
         <Typography variant="body2">Adults:</Typography>
         <Counter getAmount={setAdultsFilterAmount} />
