@@ -30,7 +30,12 @@ export const RoomsList = ({ rooms }: RoomsListProps) => {
     <Box>
       {rooms.map((room) => {
         return (
-          <Card key={room.id} variant="outlined" sx={{ margin: "2%" }}>
+          <Card
+            data-testid="room"
+            key={room.id}
+            variant="outlined"
+            sx={{ margin: "2%" }}
+          >
             <CardContent sx={{ display: "flex", columnGap: "2%" }}>
               {room.images.length ? (
                 <Box flex="0 0 30%">

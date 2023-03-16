@@ -1,91 +1,47 @@
-// import React, { PropsWithChildren } from "react";
-// import { render, RenderOptions } from "@testing-library/react";
+import { renderHook, render } from "@testing-library/react";
+import {
+  QueryClientProvider,
+  QueryClient,
+  UseQueryResult,
+} from "@tanstack/react-query";
 
-// interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
-//   preloadedState?: PreloadedState<RootState>;
-//   store?: AppStore;
-//   route?: string;
-// }
+type WrapperProps = {
+  children: React.ReactElement;
+};
 
-// export function renderWithProviders(
-//   ui: React.ReactElement,
-//   {
-//     route = "/",
-//     preloadedState,
-//     store = setupStore(preloadedState),
-//     ...renderOptions
-//   }: ExtendedRenderOptions = {}
-// ) {
-//   function Wrapper({ children }: PropsWithChildren<{}>): JSX.Element {
-//     window.history.pushState({}, "Test page", route);
+export const getQueryClient = () => {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+    logger: {
+      log: console.log,
+      warn: console.warn,
+      error: process.env.NODE_ENV === "test" ? () => {} : console.error,
+    },
+  });
+};
 
-//     return (
-//       <BrowserRouter>
-//         <Provider store={store}>{children}</Provider>
-//       </BrowserRouter>
-//     );
-//   }
+export const renderWithProviders = (
+  ui: React.ReactElement,
+  queryClient: QueryClient
+) => {
+  const wrapper = ({ children }: WrapperProps) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
 
-//   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
-// }
+  return render(ui, { wrapper });
+};
 
-// export const MOCKED_PRODUCT = {
-//   id: 1,
-//   title: "Title",
-//   price: 109.95,
-//   description: "Description",
-//   category: "men's clothing",
-//   image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-//   rating: {
-//     rate: 3.9,
-//     count: 120,
-//   },
-// };
+export const renderHookWithWrapper = (
+  customHookCallback: () => UseQueryResult,
+  queryClient: QueryClient
+) => {
+  const wrapper = ({ children }: WrapperProps) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
 
-// export const MOCKED_PRODUCTS_LIST = [
-//   MOCKED_PRODUCT,
-//   {
-//     id: 2,
-//     title: "Mens Casual Premium Slim Fit T-Shirts ",
-//     price: 22.3,
-//     description:
-//       "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
-//     category: "men's clothing",
-//     image:
-//       "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
-//     rating: {
-//       rate: 4.1,
-//       count: 259,
-//     },
-//   },
-// ];
-
-// export const MOCKED_STATE = {
-//   cart: {
-//     ids: [1, 2],
-//     entities: {
-//       "1": {
-//         product: MOCKED_PRODUCT,
-//         amount: 3,
-//       },
-//       "2": {
-//         product: {
-//           id: 2,
-//           title: "Mens Casual Premium Slim Fit T-Shirts ",
-//           price: 22.3,
-//           description:
-//             "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
-//           category: "men's clothing",
-//           image:
-//             "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
-//           rating: {
-//             rate: 4.1,
-//             count: 259,
-//           },
-//         },
-//         amount: 4,
-//       },
-//     },
-//   },
-// };
-export const lol = [];
+  return renderHook(customHookCallback, { wrapper });
+};

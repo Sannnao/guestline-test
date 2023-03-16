@@ -9,7 +9,7 @@ export const Carousel = ({ images }: CarouselProps) => {
     <CarouselLib showIndicators={false} showThumbs={false}>
       {images.map((image, i) => (
         <Box height="100%" display="flex" alignItems="center" key={i}>
-          <img src={image.url} alt={image.alt} />
+          <img src={image.url} alt={image.alt} data-testid="carouselImg" />
         </Box>
       ))}
     </CarouselLib>

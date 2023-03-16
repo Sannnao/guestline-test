@@ -2,7 +2,9 @@ import axios from "axios";
 import { Room } from "components/RoomsList";
 import { Hotel } from "components/HotelItem";
 
-axios.defaults.baseURL = "https://obmng.dbm.guestline.net/api";
+export const BASE_URL = "https://obmng.dbm.guestline.net/api";
+
+axios.defaults.baseURL = BASE_URL;
 
 export const getHotels = async () => {
   try {
