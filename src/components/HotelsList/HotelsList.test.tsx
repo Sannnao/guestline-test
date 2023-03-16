@@ -1,8 +1,8 @@
 import { screen } from "@testing-library/react";
+import { MOCKED_HOTELS } from "utils/testingMocks";
 import { renderWithProviders, getQueryClient } from "utils/test";
 import { useHotelsQuery } from "api/useHotelsQuery";
 import { HotelsList } from "./HotelsList";
-import { MOCKED_HOTELS } from "utils/testingMocks";
 
 jest.mock("axios", () => ({
   defaults: {},

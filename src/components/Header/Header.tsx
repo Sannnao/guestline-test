@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import { useHotelsQuery } from "api/useHotelsQuery";
-import { getHotelsImages } from "utils/getHotelsImages";
 import { Carousel as CarouselLib } from "react-responsive-carousel";
 import { Box } from "@mui/material";
+import { useHotelsQuery } from "api/useHotelsQuery";
+import { getHotelsImages } from "utils/getHotelsImages";
 import { Filter, FilterData } from "components/Filter";
 
 type HeaderProps = {

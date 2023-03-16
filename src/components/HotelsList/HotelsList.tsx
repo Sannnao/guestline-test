@@ -1,7 +1,7 @@
 import { useMemo } from "react";
+import { Box } from "@mui/material";
 import { useHotelsQuery } from "api/useHotelsQuery";
 import { HotelItem } from "components/HotelItem";
-import { Box } from "@mui/material";
 import { FilterData } from "components/Filter";
 import { Loading } from "components/Loading";
 

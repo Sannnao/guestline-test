@@ -1,9 +1,5 @@
-import { renderHook, render } from "@testing-library/react";
-import {
-  QueryClientProvider,
-  QueryClient,
-  UseQueryResult,
-} from "@tanstack/react-query";
+import { render } from "@testing-library/react";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 type WrapperProps = {
   children: React.ReactElement;
@@ -33,15 +29,4 @@ export const renderWithProviders = (
   );
 
   return render(ui, { wrapper });
-};
-
-export const renderHookWithWrapper = (
-  customHookCallback: () => UseQueryResult,
-  queryClient: QueryClient
-) => {
-  const wrapper = ({ children }: WrapperProps) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-
-  return renderHook(customHookCallback, { wrapper });
 };

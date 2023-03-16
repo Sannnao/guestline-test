@@ -1,8 +1,8 @@
 import { screen, fireEvent } from "@testing-library/react";
 import { renderWithProviders, getQueryClient } from "utils/test";
+import { MOCKED_HOTEL_DATA, MOCKED_ROOMS } from "utils/testingMocks";
 import { useHotelRoomsQuery } from "api/useHotelRoomsQuery";
 import { HotelItem } from "./HotelItem";
-import { MOCKED_HOTEL_DATA, MOCKED_ROOMS } from "utils/testingMocks";
 
 jest.mock("axios", () => ({
   defaults: {},
