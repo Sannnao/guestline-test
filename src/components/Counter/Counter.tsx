@@ -47,6 +47,7 @@ export const Counter = ({ getAmount }: CounterProps) => {
 
   return (
     <Box
+      data-testid="counter"
       sx={{
         display: "flex",
         flexGrow: 1,

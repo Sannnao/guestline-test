@@ -1,5 +1,4 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-// import { renderWithProviders, MOCKED_STATE, MOCKED_PRODUCT } from "utils/test";
 import { Counter } from "./Counter";
 
 describe("Counter", () => {
